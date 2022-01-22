@@ -16,13 +16,21 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+    // /**
+    //  * Show the application dashboard.
+    //  *
+    //  * @return \Illuminate\Contracts\Support\Renderable
+    //  */
+    // public function index()
+    // {
+    //     return view('home');
+    // }
+
     public function index()
     {
-        return view('home');
+        $user = Auth::user();
+        return view('home', [
+            'intent' => $user->createSetupIntent()
+        ]);
     }
 }
