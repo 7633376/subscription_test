@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
+use App\Models\Price;
+
 class HomeController extends Controller
 {
     /**
@@ -29,8 +32,13 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
+
         return view('home', [
-            'intent' => $user->createSetupIntent()
+            'intent'       => $user->createSetupIntent(),
+            // 現在のユーザーに紐づいているサブスクリプション
+            'userProducts' => $user->products(),
+            // dashboardで作成されているサブスクリプション全件
+            'products'     => Price::getAll(),
         ]);
     }
 }

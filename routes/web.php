@@ -20,3 +20,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::post('/subscribe', 'SubscriptionController@subscribe');
+
+Route::post('/cancel', 'SubscriptionController@cancel');
+Route::post('/resume', 'SubscriptionController@resume');

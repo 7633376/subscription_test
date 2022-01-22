@@ -1,6 +1,39 @@
 @extends('layouts.app')
 
 @section('content')
+
+{{-- error ディレクティブ --}}
+@if ($errors->any())
+    <div class="alert alert-danger">
+        @foreach ($errors->all() as $error)
+            {{ $error }}
+        @endforeach
+    </div>
+@endif
+
+{{-- 現在の課金状況 --}}
+<div class="mb-6">
+    <form method="post" id="subscribed-plan">
+        @csrf
+        @foreach ($userProducts as $product)
+            @if ($product->cancelled)
+                <div class="mb-3">
+                    <div class="mb-0 alert alert-secondary radius">現在 {{ $product->name }}はキャンセル中です。</div>
+                    <div id="resume-button" class="resume btn btn-success" onclick="resume('{{ $product->id }}')">再開</div>
+                </div>
+            @else
+                <div class="mb-3">
+                    <div class="mb-0 alert alert-success radius">現在 {{ $product->name }}を定期課金中です。</div>
+                    <div id="cancel-button" class="cancel btn btn-danger" onclick="cancel('{{ $product->id }}')">キャンセル</div>
+                </div>
+            @endif
+        @endforeach
+        <input type="hidden" id="prodId" name="prodId">
+    </form>
+</div>
+
+
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="card col-md-8">
@@ -11,7 +44,9 @@
                 <div class="form-group">
                     <label>サブスクリプション商品:</label>
                     <select id="plan" name="plan" class="form-control">
-                        <option value="Stripeの商品ページにあるAPI_ID">テストプレミアムプラン</option>
+                        @foreach ($products as $product)
+                            <option value="{{ $product->id }}">{{ $product->productName }}</option>
+                        @endforeach
                     </select>
                 </div>
 
@@ -104,6 +139,40 @@
             }
         });
     })
+
+
+
+    function cancel(prodId) {
+        const form         = $('#subscribed-plan');
+        const cancelButton = $(".cancel");
+        const resumeButton = $(".resume");
+        const hiddenProdId = $("#prodId");
+
+        // 商品IDを設定
+        hiddenProdId.attr('value', prodId);
+
+        cancelButton.prop('disabled', true);
+        resumeButton.prop('disabled', true);
+
+        form.attr('action', '/cancel');
+        form.submit();
+    }
+
+    function resume(prodId) {
+        const form         = $('#subscribed-plan');
+        const cancelButton = $(".cancel");
+        const resumeButton = $(".resume");
+        const hiddenProdId = $("#prodId");
+
+        // 商品IDを設定
+        hiddenProdId.attr('value', prodId);
+
+        cancelButton.prop('disabled', true);
+        resumeButton.prop('disabled', true);
+
+        form.attr('action', '/resume');
+        form.submit();
+    }
 </script>
 
 <style>

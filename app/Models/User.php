@@ -43,4 +43,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+        /**
+     * ユーザーに紐づいているサブスクリプションを返す
+     */
+    public function products() {
+        $products = [];
+        foreach ($this->subscriptions()->get() as $subscription) {
+            $priceId = $subscription->stripe_plan;
+
+            // price id から plan を取得
+            $plan = Plan::retrieve($priceId);
+            // prod id から product を取得
+            $product =Product::retrieve($plan->product);
+
+            // dashboardで設定したメタデータを取得
+            $localName           = $product->metadata->localName;
+            $product->cancelled  = $this->subscription($localName)->cancelled();
+
+            $products[] = $product;
+        }
+
+        return $products;
+    }
 }
