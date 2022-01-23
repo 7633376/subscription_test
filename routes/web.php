@@ -21,7 +21,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::post('/subscribe', 'SubscriptionController@subscribe');
+Route::post('/subscribe', [App\Http\Controllers\SubscriptionController::class, 'subscribe']);
 
 Route::post('/cancel', 'SubscriptionController@cancel');
 Route::post('/resume', 'SubscriptionController@resume');

@@ -28,6 +28,7 @@ class SubscribeRequest extends FormRequest
         ];
     }
 
+    
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {

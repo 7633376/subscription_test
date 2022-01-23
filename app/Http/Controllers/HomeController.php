@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Price;
+use Stripe\Stripe;
 
 class HomeController extends Controller
 {
@@ -16,6 +17,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
+        Stripe::setApiKey(env('STRIPE_SECRET'));
         $this->middleware('auth');
     }
 

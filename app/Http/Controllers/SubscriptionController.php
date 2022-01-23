@@ -3,9 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\SubscribeRequest;
+use Stripe\Plan;
+use Stripe\Product;
+use Stripe\Stripe;
 
 class SubscriptionController extends Controller
 {
+
+    public function __construct(){
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+    }
 
     public function subscribe(SubscribeRequest $request)
     {
@@ -17,7 +25,9 @@ class SubscriptionController extends Controller
         $plan = Plan::retrieve($priceId);
         // prod id から product を取得
         $product   = Product::retrieve($plan->product);
-        $localName = $product->metadata->localName;
+        //$localName = $product->metadata->localName;
+
+        $localName = 'default';
 
         // サブスクリプション開始
         $user->newSubscription($localName, $priceId)->create($paymentMethod);

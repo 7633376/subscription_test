@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 use Laravel\Cashier\Billable;
+use Stripe\Plan;
+use Stripe\Product;
 
 class User extends Authenticatable
 {
@@ -59,7 +61,9 @@ class User extends Authenticatable
             $product =Product::retrieve($plan->product);
 
             // dashboardで設定したメタデータを取得
-            $localName           = $product->metadata->localName;
+            //$localName           = $product->metadata->localName;
+            //$localName = $product->name;
+            $localName = 'default';
             $product->cancelled  = $this->subscription($localName)->cancelled();
 
             $products[] = $product;

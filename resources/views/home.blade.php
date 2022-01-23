@@ -37,7 +37,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="card col-md-8">
-            <form action="/subscribe" method="post" id="payment-form">
+            <form action="/test_or_enjoy/subscription/public/subscribe" method="post" id="payment-form">
                 @csrf
 
                 {{-- 商品情報 --}}
@@ -79,7 +79,8 @@
 <script>
     $(function() {
         // Create a Stripe client.
-        var stripe = Stripe('.envに追加した公開可能キー');
+        //todo javascriptではenv関数が使えない
+        var stripe = Stripe('pk_test_51KIDfPGlkz8UWxahsiwqzbzmnHYjKjH5Ma37H2qQlGNyQEXBGUcjPvufQBjHS3mgDUfwDrCbImG7YaHkELRrPrEs00Z66FsLOD');
 
         // Create an instance of Elements.
         var elements = stripe.elements();
@@ -142,7 +143,7 @@
 
 
 
-    function cancel(prodId) {
+       function cancel(prodId) {
         const form         = $('#subscribed-plan');
         const cancelButton = $(".cancel");
         const resumeButton = $(".resume");
