@@ -61,10 +61,8 @@ class User extends Authenticatable
             $product =Product::retrieve($plan->product);
 
             // dashboardで設定したメタデータを取得
-            //$localName           = $product->metadata->localName;
-            //$localName = $product->name;
-            $localName = 'default';
-            $product->cancelled  = $this->subscription($localName)->cancelled();
+            $test_item_meta = $product->metadata->test_item_meta;
+            $product->cancelled  = $this->subscription($test_item_meta)->cancelled();
 
             $products[] = $product;
         }

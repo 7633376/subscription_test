@@ -25,12 +25,10 @@ class SubscriptionController extends Controller
         $plan = Plan::retrieve($priceId);
         // prod id から product を取得
         $product   = Product::retrieve($plan->product);
-        //$localName = $product->metadata->localName;
-
-        $localName = 'default';
+        $test_item_meta = $product->metadata->test_item_meta;
 
         // サブスクリプション開始
-        $user->newSubscription($localName, $priceId)->create($paymentMethod);
+        $user->newSubscription($test_item_meta, $priceId)->create($paymentMethod);
 
         return redirect('/home');
     }
