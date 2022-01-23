@@ -79,8 +79,7 @@
 <script>
     $(function() {
         // Create a Stripe client.
-        //todo javascriptではenv関数が使えない
-        var stripe = Stripe('pk_test_51KIDfPGlkz8UWxahsiwqzbzmnHYjKjH5Ma37H2qQlGNyQEXBGUcjPvufQBjHS3mgDUfwDrCbImG7YaHkELRrPrEs00Z66FsLOD');
+        var stripe = Stripe('<?php echo env('STRIPE_KEY') ?>');
 
         // Create an instance of Elements.
         var elements = stripe.elements();
